@@ -28,13 +28,19 @@ public class GridCellManager : MonoBehaviour
     private void InputOnConfirm(object sender, EventArgs e)
     {
         OutputHoverGridCoordinates();
-        OccupyPosition(GetHoverCellLocalPosition());
+        OccupyPosition(GetHoverCellLocalCoordinate());
     }
     
     private void UpdateHoverCellPosition()
     {
         //Need to check bounds of input
-        gridVisual.transform.position = GetHoverCellWorldPosition();
+        //meowmeow purr meow meow :3 
+        Vector3 localCoordinate = GetHoverCellLocalCoordinate();
+        if (localCoordinate.x is >= 0 and < GRID_SIZE &&
+            localCoordinate.y is >= 0 and < GRID_SIZE)
+        {
+            gridVisual.transform.position = GetHoverCellWorldPosition();
+        }
     }
 
     private void OccupyPosition(Vector3 position)
@@ -47,15 +53,19 @@ public class GridCellManager : MonoBehaviour
         return false;
     }
 
-    private Vector3 GetHoverCellLocalPosition()
+    private Vector3 GetHoverCellLocalCoordinate()
     {
-        return GetLocalizedGridCoordinates(GetHoverCellWorldPosition());
+        return GetLocalizedGridCoordinates(GetHoverCellWorldCoordinate());
     }
     private Vector3 GetHoverCellWorldPosition()
     {
-        return gridObject.CellToWorld(gridObject.WorldToCell(InputManager.Instance.GetPointerPosition()));
+        return gridObject.CellToWorld(GetHoverCellWorldCoordinate());
     }
-    
+
+    private Vector3Int GetHoverCellWorldCoordinate()
+    {
+        return gridObject.WorldToCell(InputManager.Instance.GetPointerPosition());
+    }
     private Vector3 GetLocalizedGridCoordinates(Vector3 worldGridCoordinate)
     {
         Vector3 unitVector = new Vector3(1,1,0);
