@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -84,12 +85,7 @@ public class GridCellManager : MonoBehaviour
     private bool TryGetHoverCellLocalCoordinate(out Vector3 localCoordinate)
     {
         localCoordinate = GetLocalizedGridCoordinates(GetHoverCellWorldCoordinate());
-        if (localCoordinate.x is >= 0 and < GRID_SIZE &&
-            localCoordinate.y is >= 0 and < GRID_SIZE)
-        {
-            return true;
-        }
-        return false;
+        return IsValidCoordinate(localCoordinate);
     }
     private Vector3 GetHoverCellWorldPosition()
     {
@@ -120,5 +116,10 @@ public class GridCellManager : MonoBehaviour
         Vector3Int worldGridCoordinate = gridObject.WorldToCell(InputManager.Instance.GetPointerPosition());
         Debug.Log("World grid coordinates " + worldGridCoordinate);
         Debug.Log("Local grid coordinate " + GetLocalizedGridCoordinates(worldGridCoordinate));
+    }
+
+    private bool IsValidCoordinate(Vector3 inputCoordinate)
+    {
+        return (inputCoordinate.x is >= 0 and < GRID_SIZE && inputCoordinate.y is >= 0 and < GRID_SIZE);
     }
 }
