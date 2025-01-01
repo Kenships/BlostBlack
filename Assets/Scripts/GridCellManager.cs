@@ -22,40 +22,74 @@ public class GridCellManager : MonoBehaviour
     private void Update()
     {
         UpdateHoverCellPosition();
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (TryGetHoverCellLocalCoordinate(out Vector3 localCoordinate))
+            {
+                OccupyCoordinate(localCoordinate);
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Backspace))
+        {
+            if (TryGetHoverCellLocalCoordinate(out Vector3 localCoordinate))
+            {
+                UnOccupyCoordinate(localCoordinate);
+            }
+        }
     }
     
     
     private void InputOnConfirm(object sender, EventArgs e)
     {
         OutputHoverGridCoordinates();
-        OccupyPosition(GetHoverCellLocalCoordinate());
+        //OccupyCoordinate(GetHoverCellLocalCoordinate());
+        if (TryGetHoverCellLocalCoordinate(out Vector3 localCoordinate))
+        {
+            Debug.Log(IsCellOccupied(localCoordinate));
+        }
+        
     }
     
     private void UpdateHoverCellPosition()
     {
         //Need to check bounds of input
         //meowmeow purr meow meow :3 
-        Vector3 localCoordinate = GetHoverCellLocalCoordinate();
+        if (TryGetHoverCellLocalCoordinate(out Vector3 localCoordinate))
+        {
+            if (localCoordinate.x is >= 0 and < GRID_SIZE &&
+                localCoordinate.y is >= 0 and < GRID_SIZE)
+            {
+                gridVisual.transform.position = GetHoverCellWorldPosition();
+            }
+        }
+       
+    }
+
+    private void OccupyCoordinate(Vector3 coordinate)
+    {
+        _gridOccupancy[(int)coordinate.x][(int)coordinate.y] = true;
+    }
+
+    private void UnOccupyCoordinate(Vector3 coordinate)
+    {
+        _gridOccupancy[(int)coordinate.x][(int)coordinate.y] = false;
+
+    }
+    private bool IsCellOccupied(Vector3 coordinates)
+    {
+        return _gridOccupancy[(int)coordinates.x][(int)coordinates.y];
+    }
+
+    private bool TryGetHoverCellLocalCoordinate(out Vector3 localCoordinate)
+    {
+        localCoordinate = GetLocalizedGridCoordinates(GetHoverCellWorldCoordinate());
         if (localCoordinate.x is >= 0 and < GRID_SIZE &&
             localCoordinate.y is >= 0 and < GRID_SIZE)
         {
-            gridVisual.transform.position = GetHoverCellWorldPosition();
+            return true;
         }
-    }
-
-    private void OccupyPosition(Vector3 position)
-    {
-        
-    }
-
-    private bool IsCellOccupied(Vector3 coordinates)
-    {
         return false;
-    }
-
-    private Vector3 GetHoverCellLocalCoordinate()
-    {
-        return GetLocalizedGridCoordinates(GetHoverCellWorldCoordinate());
     }
     private Vector3 GetHoverCellWorldPosition()
     {
@@ -74,7 +108,11 @@ public class GridCellManager : MonoBehaviour
 
     private void InitializeGridOccupancy()
     {
-        
+        _gridOccupancy = new bool[GRID_SIZE][];
+        for (int row = 0; row < GRID_SIZE; row++)
+        {
+            _gridOccupancy[row] = new bool[GRID_SIZE];
+        }
     }
 
     private void OutputHoverGridCoordinates()
