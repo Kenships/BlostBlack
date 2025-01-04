@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a3b9c0c23e384144bddc59f89df2e58, type: 3}
+  m_Name: ColorLibrarySO
+  m_EditorClassIdentifier: 
+  spriteTiles:
+  - {fileID: 11400000, guid: e923c7d621d5f0f49bf7cfdabcb1449c, type: 2}
+  - {fileID: 11400000, guid: e312b55808de2274d966f7ac284e6660, type: 2}
+  - {fileID: 11400000, guid: 0b05ad7beac734e4cbc7659b19293e2b, type: 2}
+  - {fileID: 11400000, guid: 15b687135b814ca4cadf63ca0d70f44e, type: 2}
+  - {fileID: 11400000, guid: 62e9a0a42548b494e9bd0d23b9db4645, type: 2}
+  - {fileID: 11400000, guid: 428daffd42c3d8049aa51aaef932bb7d, type: 2}
+  - {fileID: 11400000, guid: 694e0711bcaa96f47accfd5c0820fbed, type: 2}
+  - {fileID: 11400000, guid: 61c2c9e06fb4592448e8d55663a9292f, type: 2}
